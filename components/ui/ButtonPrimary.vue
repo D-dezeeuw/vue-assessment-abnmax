@@ -6,7 +6,7 @@
       props.class]"
   >
       <!-- Black center with white text, goes transparent on hover, showing the glowing gradient -->
-      <span class="btnSpan relative z-1 w-full rounded-full bg-black/100 text-base text-white backdrop-blur-2xl] transition-all
+      <span class="btnSpan relative z-1 w-full rounded-full bg-black/100 text-base text-white backdrop-blur-2xl transition-all
               duration-300 ease-out hover:bg-cyan-700/20"
       >
         <slot>Button</slot>

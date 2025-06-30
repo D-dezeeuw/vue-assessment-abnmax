@@ -12,7 +12,14 @@
           <div v-else-if="currentShow" class="md:flex md:gap-4 lg:gap-12">
 
             <!-- column 1 for show info -->
-            <div class="w-full md:w-1/2 mb-24 md:mb-0">
+            <div class="w-full md:w-4/12 mb-24 md:mb-0">
+              <img v-if="currentShow.image" :src="currentShow.image.medium" :alt="currentShow.name" class="mb-12" />
+              
+              <ButtonPrimary class="relative"><NuxtLink class="block px-4 py-2"   to="/tv-shows">Terug naar het overzicht</NuxtLink></ButtonPrimary>
+            </div>
+
+            <!-- column 2 for the shows trailer (fetched through TMDB api as amaze didn't have it) -->
+            <div class="w-full md:w-8/12 min-h-80">
               <h1 class="text-5xl font-bold mb-8">{{ currentShow.name }}</h1>
               <div v-html="currentShow.summary" class="mb-8"></div>
              
@@ -20,12 +27,7 @@
               <p><strong>Rating:</strong> {{ currentShow.rating.average || 'N/A' }}</p>
               <p><strong>Status:</strong> {{ currentShow.status }}</p>
               <p class="mb-12"><strong>Premiered:</strong> {{ currentShow.premiered }}</p>
-              <NuxtLink to="/tv-shows">Back to TV Shows</NuxtLink>
-            </div>
-
-            <!-- column 2 for the shows trailer (fetched through TMDB api as amaze didn't have it) -->
-            <div class="w-full md:w-1/2 min-h-80">
-              <img v-if="currentShow.image" :src="currentShow.image.medium" :alt="currentShow.name" class="mb-12" />
+              
               <iframe
                   v-if="tmdbData?.trailer"
                   class="rounded-lg shadow-md w-full md:w-inherit"
@@ -41,11 +43,7 @@
         <div v-else>Show not found</div>
 
       </div>
-
-
-
-
-  </div>
+    </div>
 
     <!-- black overlay so its less distracting and more of a mood -->
     <div class="absolute inset-0 bg-black/70 z-[-1]"></div>
@@ -61,38 +59,29 @@
 </template>
 
 <script setup lang="ts">
-import type {TvShow, TvShowDetails} from '~/types/tvshows';
-const currentShow = ref<TvShowDetails | null>(null);
-const route = useRoute();
-const paramsId = route.params.id;
-let TvShowId = '';
+  import ButtonPrimary from '~/components/ui/ButtonPrimary.vue';
+  import type {TvShow, TvShowDetails} from '~/types/tvshows';
+  const currentShow = ref<TvShowDetails | null>(null);
+  const route = useRoute();
+  const paramsId = route.params.id;
+  let TvShowId = '';
 
-if (paramsId && typeof paramsId === 'string') {
-  TvShowId = paramsId.replace(/-/g,' ');
-}
+  if (paramsId && typeof paramsId === 'string') {
+    TvShowId = paramsId.replace(/-/g,' ');
+  }
 
-// Load data via useAsyncData for SSR support & hydration reuse
-const tvStore = useTvShowsStore();
-const { pending } = await useAsyncData('tv-show-'+ paramsId, () => tvStore.loadShowById(TvShowId))
-currentShow.value = tvStore.currentShow;
+  // Load data via useAsyncData for SSR support & hydration reuse
+  const tvStore = useTvShowsStore();
+  const { pending } = await useAsyncData('tv-show-'+ paramsId, () => tvStore.loadShowById(TvShowId))
+  currentShow.value = tvStore.currentShow;
 
 
-// Load additional information for Trailer (would be nice to watch at least something right.)
-
-// Implementatie of TVDB Api
-// const { fetchTvShowByName } = useTvdbApi();
-// const { data: tvdbData } = await useAsyncData('tvdb-show', () =>
-//   fetchTvShowByName('straw')
-// );
-// console.log('Show info:', tvdbData.value?.show);
-// console.log('Trailer(s):', tvdbData.value?.trailers);
-
-// Implementation of TMDB Api
-const { fetchTvShowByName } = useTmdbApi();
-const { data: tmdbData, error } = await useAsyncData('tmdb-show-' + paramsId, () =>
-  fetchTvShowByName(TvShowId)
-);
-console.log(`TMDB ${TvShowId}:`, tmdbData.value?.trailer?.key, 'provider:', tmdbData.value?.trailer?.site)
+  // Load additional information for Trailer (would be nice to watch at least something right.)
+  // Implementation of TMDB Api
+  const { fetchTvShowByName } = useTmdbApi();
+  const { data: tmdbData, error } = await useAsyncData('tmdb-show-' + paramsId, () =>
+    fetchTvShowByName(TvShowId)
+  );
 </script>
 
 <style scoped>

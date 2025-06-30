@@ -27,17 +27,28 @@ export const useTvShowsStore = defineStore('tvshows', () => {
 
   /* Filters */
   const showsByGenre = computed(() => {
-    const map: Record<string, TvShow[]> = {}
+    const map: Record<string, TvShow[]> = {};
   
     shows.value.forEach(show => {
       show.genres.forEach(genre => {
-        if (!map[genre]) map[genre] = []
-        map[genre].push(show)
-      })
-    })
+        if (!map[genre]) {
+          map[genre] = [];
+        }
+        map[genre].push(show);
+      });
+    });
   
-    return map
+    // Sort shows within each genre by rating (descending)
+    for (const genre in map) {
+      map[genre].sort((a, b) => {
+        const ratingA = a.rating?.average ?? -1; // Treat null as -1 for sorting to put them at the end
+        const ratingB = b.rating?.average ?? -1;
+        return ratingB - ratingA; // Descending order
+      });
+    }
+  
+    return map;
   })
 
-  return { shows, isLoading, currentShow, loadShowById, loadShows,  };
+  return { shows, isLoading, currentShow, loadShowById, loadShows, showsByGenre };
 });

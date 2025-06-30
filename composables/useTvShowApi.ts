@@ -4,9 +4,9 @@ export function useTvShowApi() {
   const config = useRuntimeConfig();
 
   // Get all TV Shows
-  async function fetchShows(): Promise<TvShow> {
-    const { data } = await useFetch(config.public.apiBase + 'shows'); // or local JSON or any endpoint
-    return data.value as TvShow
+  async function fetchShows(): Promise<TvShow[]> {
+    const { data } = await useFetch<TvShow[]>(config.public.apiBase + 'shows'); // or local JSON or any endpoint
+    return data.value as TvShow[]
   }
 
   // Get a specific TV Show

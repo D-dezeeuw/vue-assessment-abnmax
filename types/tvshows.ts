@@ -2,6 +2,9 @@ export interface TvShow {
   id: number;
   name: string;
   genres: string[];
+  rating: {
+    average: number | null;
+  };
   image: {
     medium: string;
     original: string;

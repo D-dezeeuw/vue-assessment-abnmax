@@ -3,16 +3,16 @@
     
     <!-- The graphic is nice but doesn't hold up in WCAG or SEO. providing added a nice H1 for that. -->
     <h1 class="sr-only">Op het puntje van je bank.</h1>
-    <Slogan class="mt-8 md:mt-24" />
+    <Slogan class="mt-8 md:mt-24 z-5" />
 
     <!-- Main CTA button, created component for it with an animated border gradient -->
     <!-- small detail: "Kijk Verder" is a reference to the old slogan of ABN AMRO "Look Beyond"-->
-    <ButtonPrimary class="btn-primary--cta size-l absolute bottom-20">
+    <ButtonPrimary class="btn-primary--cta size-l absolute bottom-20 z-10">
       <NuxtLink class="" to="/tv-shows">Kijk Verder</NuxtLink>
     </ButtonPrimary>
 
     <!-- This shows random TV Shows on the television with masking and data from the pinia store -->
-    <Preview class="brightness-50" />
+    <Preview class="brightness-50 z-1" />
    
   </main> 
 </template>

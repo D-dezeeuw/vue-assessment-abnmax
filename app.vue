@@ -1,6 +1,7 @@
 <template>
-  <NuxtRouteAnnouncer />
-  <div class="grid h-screen [grid-template-rows:76px_1fr_32px]">
+  
+  <div class="grid h-screen w-screen [grid-template-rows:76px_1fr_32px] overflow-x-hidden">
+    <NuxtRouteAnnouncer />
     <Header />
     <NuxtPage />
     <Footer />

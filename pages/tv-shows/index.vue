@@ -1,13 +1,13 @@
 <template>
   <!-- page for the overview of tv show items -->
-  <main class="w-screen max-w-6xl pt-8 mx-auto">
+  <main class="max-w-6xl w-screen pt-8 w-full mx-auto">
     
-    <h1>TV Shows</h1>
+    <h1 class="text-4xl mb-12 px-4">TV Shows</h1>
     
-    <!-- horizontal navigation menu containing separate cards with tv-shows -->
-    <NavHorizontal>
-      <CardTvshow v-for="show in tvStore.shows" :key="show.id" :model="show" />
+    <NavHorizontal :genre="genre" v-for="(shows, genre) in tvStore.showsByGenre" :key="genre">
+      <CardTvshow v-for="show in shows" :key="show.id" :model="show" />
     </NavHorizontal>
+
 
   </main>
 </template>
