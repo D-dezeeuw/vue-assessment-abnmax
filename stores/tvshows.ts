@@ -12,7 +12,6 @@ export const useTvShowsStore = defineStore('tvshows', () => {
   
   /* Fetch show(s) through api composable */
   async function loadShows() {
-    if (shows.value.length > 0) return; // Already loaded, skip fetch
 
     isLoading.value = true;
     shows.value = await fetchShows();
